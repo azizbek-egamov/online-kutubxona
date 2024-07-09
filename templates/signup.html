@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Sign Up
+{% endblock title %}
+
+{% block main %}
+<main style="height: 185vh;" class="login-bg">
+
+    <style>
+
+        .we2 {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+        }
+
+        
+        @media screen and (max-width: 500px) {
+            .xcv {
+                display: flex;
+            }
+
+            .xcv {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .we {
+                width: 100% !important;
+            }
+        }
+
+        @media screen and (max-width: 410px) {
+            .we2 {
+                width: 200px;
+            }
+        }
+
+        #dnone{
+            display: none;
+        }
+
+
+    </style>
+    <div class="register-form-area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-6 col-lg-8">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="register-form text-center">
+
+                            <div class="register-heading">
+                                <span>Ro'yxatdan o'tish</span>
+                                <p style="color: {{color}}">{{text}}</p>
+                            </div>
+
+                            <div class="input-box">
+                                <div class="single-input-fields">
+                                    <label for="a1">Ism</label>
+                                    <input id="a1" type="text" name="fname" value="{{fn}}"
+                                        placeholder="Ismingizni kiriting" required>
+                                </div>
+                                <div class="single-input-fields">
+                                    <label for="a5">Familiya</label>
+                                    <input id="a5" type="text" name="lname" value="{{ln}}"
+                                        placeholder="Familiyangizni kiriting" required>
+                                </div>
+                                <div class="single-input-fields">
+                                    <label for="a2">Email manzil</label>
+                                    <input id="a2" type="email" name="email" value="{{em}}"
+                                        placeholder="Email manzilni kiriting" required>
+                                </div>
+                                <div class="single-input-fields">
+                                    <label for="a2">Foydalanuvchi nomi</label>
+                                    <input id="a2" type="text" value="{{us}}" name="username"
+                                        placeholder="Foydalanuvchi nomini kiriting">
+                                </div>
+                                <div class="single-input-fields user-box1">
+                                    <label for="a3">Parol</label>
+                                    <input id="a3" type="password" value="{{p1}}" name="pass1"
+                                        placeholder="Parolni kiriting">
+                                </div>
+                                <div class="single-input-fields">
+                                    <label for="a4">Parol</label>
+                                    <input id="a4" type="password" value="{{p2}}" name="pass2"
+                                        placeholder="Parolni qayta kiriting">
+                                </div>
+                                <div class="single-input-fields">
+                                    <div>
+                                        <img class="we2" width="250" id="captcha" src="" alt="CAPTCHA">
+                                    </div>
+                                    <input type="text" id="captchaInput" placeholder="Enter CAPTCHA" required>
+                                    <div class="hero__btn xcv" data-animation="fadeInUp" data-delay=".10s">
+                                        <button class="we submit-btn3" style="width: 49%; height: 50px !important; color: #fff;" type="button"  onclick="verifyCaptcha()">Tekshirish</button>
+                                        <button class="we submit-btn3" style="width: 49%; height: 50px !important; color: #fff;" type="button"  onclick="reloadPage()">Yangilash</button>
+                                    </div>
+                                    <div id="message"></div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="register-footer">
+                                <p>Hisobingiz bormi ? <a href="/login">Kirish</a>.</p>
+                                <input id="dnone" class="submit-btn3 dnone" type="submit" value="Ro'yxatdan o'tish">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    function generateRandomString(length = 5) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+    }
+
+    function setCaptcha() {
+        const randomText = generateRandomString();
+        const captchaUrl = `https://visualcoderuz.mangu-host.uz/captcha/captcha/?text=${randomText}`;
+        document.getElementById('captcha').src = captchaUrl;
+        document.getElementById('captcha').setAttribute('data-text', randomText);
+    }
+
+    function verifyCaptcha() {
+        const enteredText = document.getElementById('captchaInput').value;
+        const captchaText = document.getElementById('captcha').getAttribute('data-text');
+        const message = document.getElementById('message');
+        const dnone = document.getElementById('dnone');
+
+        if (enteredText === captchaText) {
+            message.textContent = 'To\'gri kiritdingiz !';
+            dnone.style.display = 'block';
+        } else {
+            message.textContent = 'Xato, qaytadan kiriting';
+            message.style.color = 'red';
+            dnone.style.display = 'none';
+        }
+    }
+
+    window.onload = setCaptcha;
+
+    function reloadPage() {
+        window.location.reload();
+    }
+</script>
+
+{% endblock  %}

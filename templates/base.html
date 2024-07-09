@@ -1,0 +1,335 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>
+            {% block title %}
+            {% endblock title %}
+        </title>
+        <meta name="description" content>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon"
+              type="image/x-icon"
+              href="{% static 'img/favicon.ico' %}">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/slicknav.css' %}">
+        <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+        <link rel="stylesheet" href="{% static 'css/progressbar_barfiller.css' %}">
+        <link rel="stylesheet" href="{% static 'css/lightslider.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/price_rangs.css' %}">
+        <link rel="stylesheet" href="{% static 'css/gijgo.css' %}">
+        <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/animated-headline.css' %}">
+        <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+        <link rel="stylesheet" href="{% static 'css/fontawesome-all.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
+        <link rel="stylesheet" href="{% static 'css/slick.css' %}">
+        <link rel="stylesheet" href="{% static 'css/nice-select.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+    <style>
+    .form-box button {
+        background-color: transparent;
+        border: none;
+    }
+
+    @media screen and (max-width: 575px) {
+        .form-box button {
+            background-color: transparent;
+        }
+    }
+
+    .form-box button:hover {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    ::placeholder {
+        color: black !important;
+        opacity: 1 !important;
+        /* Firefox */
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    </style>
+    <body>
+        <div id="preloader-active">
+            <div class="preloader d-flex align-items-center justify-content-center">
+                <div class="preloader-inner position-relative">
+                    <div class="preloader-circle"></div>
+                    <div class="preloader-img pere-text">
+                        <img src="{% static 'img/file.png' %}" alt>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <header>
+            <div class="header-area">
+                <div class="main-header header-sticky">
+                    <div class="container-fluid">
+                        <div class="row menu-wrapper align-items-center justify-content-between">
+                            <div class="header-left d-flex align-items-center">
+                                {% comment %}
+                            <div class="logo">
+                                <a href="/"><img src="{% static 'img/file.png' %}" alt></a>
+                                </div> {% endcomment %}
+                                <div class="main-menu  d-none d-lg-block">
+                                    <nav>
+                                        <ul id="navigation">
+                                            <li>
+                                                <a href="/"><i class="fa fa-home"></i> Asosiy</a>
+                                            </li>
+                                            {% comment %} <li><a href="/about">Biz haqimizda</a></li> {% endcomment %}
+                                            {% if request.user.is_authenticated %}
+                                                <li>
+                                                    <a href="/categorys"><i class="fa-solid fa-list"></i> Kategoriyalar</a>
+                                                    <ul class="submenu">
+                                                        {% if category == False %}
+                                                            <li>
+                                                                <i style="font-size: 8px;" class="fa-solid fa-circle-dot"></i>
+                                                                Kategoriyalar mavjud emas
+                                                            </li>
+                                                        {% else %}
+                                                            {% for i in page_obj3 %}
+                                                                <li>
+                                                                    <a href="/category/{{ i.slug }}"><i style="font-size: 8px;" class="fa-solid fa-circle-dot"></i> {{ i.name }}</a>
+                                                                </li>
+                                                            {% endfor %}
+                                                            {% for num in page_obj3.paginator.page_range %}
+                                                                {% if page_obj3.number == num %}
+                                                                    <li>
+                                                                        <a style="color: #7F85A8;" href="/categorys/"><i style="font-size: 8px;" class="fa-solid fa-right-long"></i> Ko'proq ko'rish</a>
+                                                                    </li>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <a href="/logout"><i class="fa-solid fa-user"></i> {{ request.user }}'dan
+                                                    chiqish</a>
+                                                </li>
+                                                {% if request.user.is_superuser %}
+                                                    <li>
+                                                        <a href="/admin"><i class="fa-solid fa-lock"></i> Admin panel</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% else %}
+                                                <li>
+                                                    <a href="/categorys"><i class="fa-solid fa-list"></i> Kategoriyalar</a>
+                                                    <ul class="submenu">
+                                                        {% if category == False %}
+                                                            <li>
+                                                                <i style="font-size: 8px;" class="fa-solid fa-circle-dot"></i>
+                                                                Kategoriyalar mavjud emas
+                                                            </li>
+                                                        {% else %}
+                                                            {% for i in page_obj3 %}
+                                                                <li>
+                                                                    <a href="/category/{{ i.slug }}"><i style="font-size: 8px;" class="fa-solid fa-circle-dot"></i> {{ i.name }}</a>
+                                                                </li>
+                                                            {% endfor %}
+                                                            {% for num in page_obj3.paginator.page_range %}
+                                                                {% if page_obj3.number == num %}
+                                                                <li>
+                                                                    <a style="color: #7F85A8;" href="/categorys/"><i style="font-size: 8px;" class="fa-solid fa-right-long"></i> Ko'proq ko'rish</a>
+                                                                </li>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <a href="/login"><i class="fa-solid fa-right-to-bracket"></i> Hisobga
+                                                    kirish</a>
+                                                </li>
+                                                <li>
+                                                    <a href="/signup"><i class="fa-solid fa-user-plus"></i> Ro'yxatdan
+                                                    o'tish</a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            {% if login == "true" or sign == "true" %}
+                            {% else %}
+                                <div class="header-right1 d-flex align-items-center">
+                                    <div class="search">
+                                        <ul class="d-flex align-items-center">
+                                            <li>
+                                                <form method="POST" class="form-box f-right ">
+                                                    {% csrf_token %}
+                                                    <input type="search"
+                                                           name="Search"
+                                                           style="color: black !important"
+                                                           placeholder="Kitobni qidiring"
+                                                           required>
+                                                    <div class="search-icon">
+                                                        <button style="color: black !important" class="fa-solid fa-magnifying-glass"></button>
+                                                    </div>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div style="bottom: 30px;" class="col-sm-4">
+                                <div class="mobile_menu d-block d-lg-none"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        {% block main %}
+        {% endblock main %}
+        <footer>
+            <div class="footer-wrapper">
+                <div class="footer-area footer-padding">
+                    <div class="container ">
+                        <div class="row justify-content-between">
+                            <div class="col-xl-4 col-lg-3 col-md-8 col-sm-8">
+                                <div class="single-footer-caption mb-50">
+                                    <div class="single-footer-caption mb-30">
+                                        <div class="footer-logo mb-35">
+                                            <a href="/">
+                                                <img style="width: 100px;" src="{% static 'img/file.png' %}" alt>
+                                            </a>
+                                        </div>
+                                        <div class="footer-tittle">
+                                            <div class="footer-pera">
+                                                <p>Materialdan foydalanilgandan so'ng sayt havolasi ko'rsatilishi shart.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4">
+                                <div class="single-footer-caption mb-50">
+                                    <div class="footer-tittle">
+                                        <h4>Loyihalar</h4>
+                                        <ul>
+                                            <li>
+                                                <a href="#foot">loyiha1.uz</a>
+                                            </li>
+                                            <li>
+                                                <a href="#foot">loyiha2.uz</a>
+                                            </li>
+                                            <li>
+                                                <a href="#foot">loyiha3.uz</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4">
+                                <div class="single-footer-caption mb-50">
+                                    <div class="footer-tittle">
+                                        <h4>Hamkorlar</h4>
+                                        <ul>
+                                            <li>
+                                                <a href="https://www.datatalim.uz/">datatalim.uz</a>
+                                            </li>
+                                            <li>
+                                                <a href="https://visualcoder.ru">visualcoder.ru</a>
+                                            </li>
+                                            <li>
+                                                <a href="https://google.com">google.com</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="foot" class="footer-bottom-area">
+                    <div class="container">
+                        <div class="footer-border">
+                            <div class="row d-flex align-items-center">
+                                <div class="col-xl-12 ">
+                                    <div class="footer-copy-right text-center">
+                                        <p>
+                                            &copy;
+                                            <script>document.write(new Date().getFullYear());</script> Barcha huquqlar
+                                            ximoya ostida
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <div id="back-top">
+            <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+        </div>
+        <script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
+        <script src="{% static 'js/vendor/modernizr-3.5.0.min.js' %}"></script>
+        <script src="{% static 'js/popper.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+        <script src="{% static 'js/slick.min.js' %}"></script>
+        <script src="{% static 'js/jquery.slicknav.min.js' %}"></script>
+        <script src="{% static 'js/wow.min.js' %}"></script>
+        <script src="{% static 'js/animated.headline.js' %}"></script>
+        <script src="{% static 'js/jquery.magnific-popup.js' %}"></script>
+        <script src="{% static 'js/gijgo.min.js' %}"></script>
+        <script src="{% static 'js/lightslider.min.js' %}"></script>
+        <script src="{% static 'js/price_rangs.js' %}"></script>
+        <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+        <script src="{% static 'js/jquery.sticky.js' %}"></script>
+        <script src="{% static 'js/jquery.barfiller.js' %}"></script>
+        <script src="{% static 'js/jquery.counterup.min.js' %}"></script>
+        <script src="{% static 'js/waypoints.min.js' %}"></script>
+        <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+        <script src="{% static 'js/hover-direction-snake.min.js' %}"></script>
+        <script src="{% static 'js/contact.js' %}"></script>
+        <script src="{% static 'js/jquery.form.js' %}"></script>
+        <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+        <script src="{% static 'js/mail-script.js' %}"></script>
+        <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+        <script src="{% static 'js/plugins.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script async
+                src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');
+        </script>
+        <script defer
+                src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015"
+                integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
+                data-cf-beacon='{"rayId":"89201fba68510b6b","b":1,"version":"2024.4.1","token":"cd0b4b3a733644fc843ef0b185f98241"}'
+                crossorigin="anonymous"></script>
+    </body>
+</html>

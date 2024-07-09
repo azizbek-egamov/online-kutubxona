@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  Kitoblar
+{% endblock title %}
+{% block main %}
+  <main>
+    {% if bookx != False %}
+      {% if books != False %}
+        <div class="product_image_area section-padding40">
+          <div class="container">
+            {% for i in books %}
+              <div class="row s_product_inner">
+                <div class="col-lg-5">
+                  <div class="product_slider_img">
+                    <div id="vertical">
+                      <div data-thumb="{{ i.rasm.url }}">
+                        <img src="{{ i.rasm.url }}" class="w-100">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+                  <div class="s_product_text">
+                    <h3>
+                      <i class="fa-solid fa-book"></i> {{ i.name }}
+                    </h3>
+                    <ul class="list">
+                      <li>
+                        <span><i class="fa-solid fa-list"></i> Kategoriya:</span> <a class="active" href="/category/{{ categ }}">{{ i.category.name }}</a>
+                      </li>
+                      <li>
+                        <span><i class="fa-solid fa-at"></i> Avtor: <a class="active" hreflang>{{ i.author }}</a></span>
+                      </li>
+                      <li>
+                        <span><i class="fa-solid fa-eye"></i> Ko'rishlar: <a class="active" hreflang>{{ i.view }}</a> ta</span>
+                      </li>
+                      <li>
+                      <span><i class="fa-regular fa-comment"></i> Izohlar: <a class="active" hreflang>{{ izohsoni }}</a>
+                    ta</span>
+                  </li>
+                  <li>
+                    <span><i class="fa-solid fa-clock"></i> Saytga yuklangan: <a class="active" hreflang>{{ i.created }}</a></span>
+                  </li>
+                </ul>
+                <p>
+                  <h4 style="color: black;" class="fa-solid fa-circle-info"></h4>
+                  {{ i.info }}
+                </p>
+                {% if request.user.is_authenticated %}
+                  <div class="card_area">
+                    <div class="add_to_cart">
+                      <a href="{{ i.file.url }}" download class="btn"><i class="fa-solid fa-download"></i> Yuklab olish</a>
+                      {% comment %} <a href="#" class="like_us"> <i class="ti-heart"></i> </a> {% endcomment %}
+                    </div>
+                  </div>
+                {% else %}
+                  <div class="card_area">
+                    <p>
+                      <i class="fa-solid fa-xmark"></i> Kitob faylini yuklab olish uchun hisobingizga kiring.
+                    </p>
+                    <div class="add_to_cart">
+                      <a href="/login" class="btn"><i class="fa-solid fa-right-to-bracket"></i> Hisobga kirish</a>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <section class="product_description_area">
+      <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link"
+               id="home-tab"
+               data-toggle="tab"
+               href="#home"
+               role="tab"
+               aria-controls="home"
+               aria-selected="true"><i class="fa-solid fa-circle-info"></i> Kitob haqida</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active"
+               id="contact-tab"
+               data-toggle="tab"
+               href="#contact"
+               role="tab"
+               aria-controls="contact"
+               aria-selected="false"><i class="fa-solid fa-comment"></i> Izohlar</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade"
+               id="home"
+               role="tabpanel"
+               aria-labelledby="home-tab">
+            {% if disc != False %}
+              {% for m in disc %}<p>{{ m }}</p>{% endfor %}
+            {% else %}
+              <p>
+                <i style="color: black;" class="fa-solid fa-xmark"></i> Kitob haqida ma'lumot topilmadi
+              </p>
+            {% endif %}
+          </div>
+          <style>
+          .vkbykg {
+            display: none;
+            width: 90%;
+            height: 1px;
+            background-color: black;
+          }
+
+          @media screen and (max-width: 991px) {
+            .gapmin {
+              gap: 50px !important;
+            }
+
+            .vkbykg {
+              display: block;
+            }
+          }
+
+          @media screen and (max-width: 440px) {
+            .scrollbar {
+              width: auto !important;
+            }
+
+          }
+
+          .scrollbar {
+            height: 70vh;
+            width: 60vh;
+            border: 1px solid #ccc;
+            overflow: auto;
+            word-wrap: break-word;
+            hyphens: auto;
+          }
+          </style>
+          <div class="tab-pane fade show active"
+               id="contact"
+               role="tabpanel"
+               aria-labelledby="contact-tab">
+            <div class="row gapmin">
+              <div class="col-lg-6">
+                <div class="comment_list scrollbar">
+                  {% if comment != False %}
+                    {% for x in comment %}
+                      {% if x.book_id.id == slug %}
+                        <div style="margin: 15px 20px;" class="review_item">
+                          <div class="media">
+                            <div class="media-body">
+                              <h4>
+                                <i style="color: black;" class="fa-regular fa-user"></i>
+                                {{ x.user_id.first_name }} {{ x.user_id.last_name }}
+                                {% if request.user.is_superuser %}({{ x.user_id.username }}){% endif %}
+                              </h4>
+                              <h5>
+                                <i style="color: black;" class="fa-regular fa-clock"></i> {{ x.created }}
+                              </h5>
+                            </div>
+                          </div>
+                          <p>
+                            <i style="color: black;" class="fa-regular fa-comment"></i> {{ x.comment }}
+                          </p>
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                  {% else %}
+                    <div class="review_item">
+                      <div class="media">
+                        <div class="media-body">
+                          <h3>
+                            <i class="fa-solid fa-xmark"></i> Izohlar mavjud emas
+                          </h3>
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="vkbykg">
+                <div></div>
+              </div>
+              <div class="col-lg-6">
+                <div class="review_box">
+                  <h4>
+                    <i class="fa-regular fa-comment"></i> Izoh qoldiring
+                  </h4>
+                  <form class="row" method="POST" novalidate="novalidate">
+                    {% csrf_token %}
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <textarea type="text"
+                                  name="comment"
+                                  style="resize:none;
+                                         height: 200px;
+                                         font-size: 15px;
+                                         padding-left: 15px;
+                                         padding-bottom: 100px"
+                                  class="form-control"
+                                  id="message"
+                                  rows="1"
+                                  placeholder="Xabarni kiriting"
+                                  required></textarea>
+                      </div>
+                    </div>
+                    {% if request.user.is_authenticated %}
+                      <div class="col-md-12 text-right">
+                        <input type="submit" class="btn" value="Joylash">
+                      </div>
+                    {% else %}
+                      <p class="col-md-12 text-right">
+                        <i class="fa-solid fa-xmark"></i> Kitob haqida izoh qoldirish uchun
+                        hisobingizga kiring.
+                      </p>
+                      <div class="col-md-12 text-right add_to_cart">
+                        <a href="/login" class="btn"><i class="fa-solid fa-right-to-bracket"></i> Hisobga kirish</a>
+                      </div>
+                    {% endif %}
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {% else %}
+      <div class="category-area">
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-7 col-lg-8 col-md-10">
+              <div class="section-tittle mb-50">
+                <h2>Kitob ushbu kategoriyaga tegishli emas</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="category-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-7 col-lg-8 col-md-10">
+            <div class="section-tittle mb-50">
+              <h2>Siz kirgan kategoriya mavjud emas.</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</main>
+{% endblock main %}

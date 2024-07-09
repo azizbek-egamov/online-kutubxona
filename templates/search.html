@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Kategoriyalar{% endblock title %}
+{% block main %}
+<main>
+
+
+    <div class="category-area">
+        <div class="container">
+            {% if results == False %}
+            <div class="row">
+                <div class="col-xl-7 col-lg-8 col-md-10">
+                    <div class="section-tittle mb-50">
+                        <h2>Ma'lumot tolimadi</h2>
+                
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="row">
+                <div class="col-xl-7 col-lg-8 col-md-10">
+                    <div class="section-tittle mb-50">
+                        <h2>Ma'lumot topildi</h2>
+                        <p>Kitoblar bilan tanishing</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+
+                <div class="col-xl-9 col-lg-9 col-md-8 ">
+
+
+                    <div class="new-arrival new-arrival3">
+                        <div class="row">
+                            {% for i in results %}
+                            <div class="col-xl-5 col-lg-3 col-md-3 col-sm-5">
+                                <div class="single-new-arrival mb-50 text-center">
+                                    <div class="popular-img">
+                                        <img src="{{i.rasm.url}}" alt>
+                                    </div>
+                                    <div class="popular-caption">
+                                        <h3><a href="/book/{{i.category.slug}}/{{i.id}}">{{i.name}}</a></h3>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+</main>
+
+{% endblock main %}

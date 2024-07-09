@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Bosh sahifa{% endblock title %}
+
+{% block main %}
+
+<style>
+  .ssss {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 70px;
+  }
+</style>
+<style>
+  .pagination {
+    display: inline-block;
+  }
+
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+  }
+
+  .pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
+</style>
+<style>
+  @media screen and (max-width: 365px) {
+    .hero__caption span {
+      font-size: 20px !important;
+    }
+
+    .hero__caption h1 {
+      font-size: 30px !important;
+    }
+
+    .hero__caption p {
+      font-size: 17px !important;
+    }
+
+    .hero__btn a {
+      font-size: 12px;
+    }
+  }
+</style>
+<div class="slider-area ">
+  <div class="slider-active">
+    <div style="background-image: url(/static/img/library2.jpg);"
+      class="single-slider hero-overly1 slider-height d-flex align-items-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-6 col-lg-8 col-md-8">
+            <div class="hero__caption">
+              <span>O'zbekiston yoshlarining eng sevimli sayti</span>
+              <h1 data-animation="fadeInUp" data-delay=".4s">Onlayn kutubxona</h1>
+              <p data-animation="fadeInUp" data-delay=".6s" style="font-size: 23px;"><i
+                  class="fa-sharp fa-solid fa-book"></i> {{kitob_soni}} ta kitob.</p>
+              {% for i in down %}
+              <p data-animation="fadeInUp" data-delay=".8s" style="font-size: 23px;"><i
+                  class="fa-sharp fa-solid fa-download"></i> {{i.count}} ta yuklab olishlar.</p>
+              {% endfor %}
+
+              <div class="hero__btn" data-animation="fadeInUp" data-delay=".10s">
+                <a href="/categorys" class="btn hero-btn">Kategoriyalar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if books != False %}
+<main>
+  <div class="category-area">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-7 col-lg-8 col-md-10">
+          <div class="section-tittle mb-50">
+            <h2>Yangi kitoblar</h2>
+            <p>Tanlang va yuklab oling</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+
+        <div class="col-xl-9 col-lg-9 col-md-10 ">
+
+
+          <div class="new-arrival new-arrival3">
+            <div class="row">
+              {% for kitob in page_obj %}
+              <div class="col-xl-5 col-lg-3 col-md-3 col-sm-5">
+                <div class="single-new-arrival mb-50 text-center">
+                  <div class="popular-img">
+                    <img src="{{ kitob.rasm.url }}" alt="{{ kitob.name }}">
+                  </div>
+                  <div class="popular-caption">
+                    <h3><a href="/book/{{kitob.category.slug}}/{{kitob.id}}">{{kitob.name}}</a></h3>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+
+            <div class="pagination">
+              {% for num in page_obj.paginator.page_range %}
+              {% if page_obj.number == num %}
+              <a class="active" href="/books/?type=created&page=1">Ko'proq ko'rish</a>
+              {% endif %}
+              {% endfor %}
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="category-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-7 col-lg-8 col-md-10">
+            <div class="section-tittle mb-50">
+              <h2>Ko'p ko'rilgan kitoblar</h2>
+              <p>Tanlang va yuklab oling</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+  
+  
+          <div class="col-xl-9 col-lg-9 col-md-10 ">
+  
+  
+            <div class="new-arrival new-arrival3">
+              <div class="row">
+                {% for kitob2 in page_obj2 %}
+                <div class="col-xl-5 col-lg-3 col-md-3 col-sm-5">
+                  <div class="single-new-arrival mb-50 text-center">
+                    <div class="popular-img">
+                      <img src="{{ kitob2.rasm.url }}" alt="{{ kitob2.name }}">
+                    </div>
+                    <div class="popular-caption">
+                      <h3><a href="/book/{{kitob2.category.slug}}/{{kitob2.id}}">{{kitob2.name}}</a></h3>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+  
+              <div class="pagination">
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <a class="active" href="/books/?type=view&page=1">Ko'proq ko'rish</a>
+                {% endif %}
+                {% endfor %}
+              </div>
+  
+            </div>
+          </div>
+        </div>
+  
+      </div>
+</main>
+{% endif %}
+
+{% endblock main %}

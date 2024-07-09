@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Login
+{% endblock title %}
+
+{% block main %}
+
+<style>
+
+    .we2 {
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+    }
+
+    @media screen and (max-width: 500px) {
+        .xcv {
+            display: flex;
+        }
+
+        .xcv {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .we {
+            width: 100% !important;
+        }
+    }
+
+    @media screen and (max-width: 410px) {
+        .we2 {
+            width: 200px;
+        }
+    }
+
+    #dnone{
+        display: none;
+        
+    }
+    .xs {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+</style>
+
+<main style="height: 150vh;" class="login-bg">
+
+    <div class="login-form-area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-7 col-lg-8">
+                    <div class="login-form">
+
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="login-heading">
+                                <span>Hisobga kirish</span>
+                                <p style="color: {{color}};">{{text}}</p>
+                            </div>
+    
+                            <div class="input-box">
+                                <div class="single-input-fields">
+                                    <label for="f1">Faydalanuvchi nomi yoki email manzil</label>
+                                    <input id="f1" name="user" value="{{v1}}" type="text" placeholder="Foydalanuvchi nomi / Email manzil">
+                                </div>
+                                <div class="single-input-fields">
+                                    <label>Parol</label>
+                                    <input type="password" name="pass" value="{{v2}}" placeholder="Parolni kiriting">
+                                </div>
+
+                                <div class="single-input-fields xs">
+                                    <div>
+                                        <img class="we2" width="250" id="captcha" src="" alt="CAPTCHA">
+                                    </div>
+                                    <input type="text" id="captchaInput" placeholder="Enter CAPTCHA" required>
+                                    <div style="width: auto !important;" class="hero__btn xcv">
+                                        <button class="we submit-btn3" style="height: 50px !important; color: #fff;" type="button"  onclick="verifyCaptcha()">Tekshirish</button>
+                                        <button class="we submit-btn3" style="height: 50px !important; color: #fff;" type="button"  onclick="reloadPage()">Yangilash</button>
+                                    </div>
+                                    <div id="message"></div>
+                                </div>
+                                <div class="single-input-fields login-check">
+                                    <input type="checkbox" id="fruit1" name="keep-log">
+                                    <label for="fruit1">Kirishni eslab qolish</label>
+                                    <a href="/resetpassword" class="f-right">Parolni unutdingizmi?</a>
+                                </div>
+
+                            </div>
+
+    
+                            <div class="login-footer">
+                                <p>Hisobingiz yo'qmi? <a href="/signup">Ro'yxatdan o'tish</a></p>
+                                <input id="dnone" class="submit-btn3" type="submit" value="Kirish">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    function generateRandomString(length = 5) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+    }
+
+    function setCaptcha() {
+        const randomText = generateRandomString();
+        const captchaUrl = `https://visualcoderuz.mangu-host.uz/captcha/captcha/?text=${randomText}`;
+        document.getElementById('captcha').src = captchaUrl;
+        document.getElementById('captcha').setAttribute('data-text', randomText);
+    }
+
+    function verifyCaptcha() {
+        const enteredText = document.getElementById('captchaInput').value;
+        const captchaText = document.getElementById('captcha').getAttribute('data-text');
+        const message = document.getElementById('message');
+        const dnone = document.getElementById('dnone');
+
+        if (enteredText === captchaText) {
+            message.textContent = 'To\'gri kiritdingiz !';
+            dnone.style.display = 'block';
+        } else {
+            message.textContent = 'Xato, qaytadan kiriting';
+            message.style.color = 'red';
+            dnone.style.display = 'none';
+        }
+    }
+
+    window.onload = setCaptcha;
+
+    function reloadPage() {
+        window.location.reload();
+    }
+</script>
+
+{% endblock  %}
+

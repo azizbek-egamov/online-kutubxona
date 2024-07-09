@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Bosh sahifa{% endblock title %}
+
+{% block main %}
+
+<style>
+  .ssss {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 70px;
+  }
+</style>
+<style>
+  .pagination {
+      display: inline-block;
+  }
+
+  .pagination a {
+      color: black;
+      float: left;
+      padding: 8px 16px;
+      text-decoration: none;
+      transition: background-color .3s;
+  }
+
+  .pagination a.active {
+      background-color: #4CAF50;
+      color: white;
+  }
+
+  .pagination a:hover:not(.active) {
+      background-color: #ddd;
+  }
+</style>
+<style>
+  @media  screen and (max-width: 365px) {
+      .hero__caption span {
+        font-size: 20px !important;
+      }
+      .hero__caption h1 {
+        font-size: 30px !important;
+      }
+      .hero__caption p {
+        font-size: 17px !important;
+      }
+
+      .hero__btn a {
+        font-size: 12px;
+      }
+  }
+</style>
+
+<main>
+  <div class="category-area">
+    <div class="container">
+        {% if books != False %}
+        {% if holat == "created" %}
+            <div class="row">
+                <div class="col-xl-7 col-lg-8 col-md-10">
+                    <div class="section-tittle mb-50">
+                        <h2>Yangi kitoblar</h2>
+                        <p>Tanlang va yuklab oling</p>
+                    </div>
+                </div>
+            </div>
+        {% elif holat == "view" %}
+        <div class="row">
+            <div class="col-xl-7 col-lg-8 col-md-10">
+                <div class="section-tittle mb-50">
+                    <h2>Ko'p ko'rilgan kitoblar</h2>
+                    <p>Tanlang va yuklab oling</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="row">
+
+
+            <div class="col-xl-9 col-lg-9 col-md-10 ">
+
+
+                <div class="new-arrival new-arrival3">
+                    <div class="row">
+                        {% for kitob in page_obj %}
+                            <div class="col-xl-5 col-lg-3 col-md-3 col-sm-5">
+                                <div class="single-new-arrival mb-50 text-center">
+                                    <div class="popular-img">
+                                      <img src="{{ kitob.rasm.url }}" alt="{{ kitob.name }}">
+                                    </div>
+                                    <div class="popular-caption">
+                                        <h3><a href="/book/{{kitob.category.slug}}/{{kitob.id}}">{{kitob.name}}</a></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                  <div class="pagination">
+                      {% if page_obj.has_previous %}
+                          <a href="/books/?type=created&page=1">&laquo;</a>
+                          <a href="/books/?type=created&page={{ page_obj.previous_page_number }}">Oldingi</a>
+                      {% endif %}
+              
+                      {% for num in page_obj.paginator.page_range %}
+                          {% if page_obj.number == num %}
+                          {% if page_obj.paginator.num_pages != 1 %}
+                              <a class="active">{{ num }}</a>
+                              {% endif %}
+                          {% elif num > page_obj.number|add:'-5' and num < page_obj.number|add:'5' %}
+                              <a href="/books/?type=created&page={{ num }}">{{ num }}</a>
+                          {% endif %}
+                      {% endfor %}
+              
+                      {% if page_obj.has_next %}
+                          <a href="/books/?type=created&page={{ page_obj.next_page_number }}">Keyingi</a>
+                          <a href="/books/?type=created&page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+                      {% endif %}
+                  </div>
+
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</main>
+
+{% endblock main %}

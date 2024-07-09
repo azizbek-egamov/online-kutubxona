@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load math_filters %}
+{% block title %}Kategoriyalar{% endblock title %}
+{% block main %}
+
+<main>
+    <style>
+        .pagination{
+            gap: px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+      
+        .pagination a {
+            color: black;
+            float: left;
+            text-decoration: none;
+            transition: background-color .3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+        }
+      
+        .pagination a.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+      
+        .pagination a:hover:not(.active) {
+            background-color: #ddd;
+        }
+
+      </style>
+
+
+    <div class="category-area">
+        <div class="container">
+            {% if category == False %}
+            <div class="row">
+                <div class="col-xl-7 col-lg-8 col-md-10">
+                    <div class="section-tittle mb-50">
+                        <h2>Kategoriyalar mavjud emas</h2>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="row">
+                <div class="col-xl-7 col-lg-8 col-md-10">
+                    <div class="section-tittle mb-50">
+                        <h2>Kategoriyalar</h2>
+                        <p>Kategoriyalar bilan tanishing</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+
+                <div class="col-xl-9 col-lg-9 col-md-8">
+
+
+                    <div class="new-arrival new-arrival3">
+                        <div class="row">
+                            {% for i in page_categ %}
+                            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                                <div class="single-new-arrival mb-50 text-center">
+                                    <div class="popular-img">
+                                        <img src="{{i.rasm.url}}" alt>
+                                    </div>
+                                    <div class="popular-caption">
+                                        <h3><a href="/category/{{i.slug}}">{{i.name}}</a></h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                    <div class="pagination">
+                        {% if page_categ.has_previous %}
+                        <a href="?page=1">&laquo;</a>
+                        <a class="pagenator1" href="?page={{ page_categ.previous_page_number }}">&lt;</a>
+                        {% endif %}
+
+                        {% for num in page_categ.paginator.page_range %}
+                        {% if page_categ.number == num %}
+                        {% if page_categ.paginator.num_pages != 1 %}
+
+                        <a class="active">{{ num }}</a>
+                        {% endif %}
+                        {% elif num > page_categ.number|add:'-6' and num < page_categ.number|add:'6' %} <a
+                            href="?page={{ num }}">{{ num }}</a>
+                            {% endif %}
+                            {% endfor %}
+
+                            {% if page_categ.has_next %}
+                            <a class="pagenator1" href="?page={{ page_categ.next_page_number }}">&gt;</a>
+                            <a href="?page={{ page_categ.paginator.num_pages }}">&raquo;</a>
+                            {% endif %}
+                    </div>
+
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+</main>
+
+{% endblock main %}
